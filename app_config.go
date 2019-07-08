@@ -81,9 +81,6 @@ func (this *AppConfig) isConnectDirectly() bool{
 }
 
 func (this *AppConfig) selectHost() string{
-	if !this.isConnectDirectly(){
-		return this.getHost()
-	}
 
 	for host,server:=range servers{
 		// if some node has down then select next node
@@ -93,6 +90,9 @@ func (this *AppConfig) selectHost() string{
 		return host
 	}
 
+	if !this.isConnectDirectly(){
+		return this.getHost()
+	}
 	return ""
 }
 

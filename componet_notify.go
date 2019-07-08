@@ -85,7 +85,10 @@ func (this *NotifyConfigComponent) Start()  {
 	for {
 		select {
 		case <-t2.C:
-			notifySyncConfigServices()
+			err := notifySyncConfigServices()
+			if err != nil {
+				syncServerIpList(nil)
+			}
 			t2.Reset(long_poll_interval)
 		}
 	}
@@ -102,9 +105,9 @@ func notifySyncConfigServices() error {
 	updateAllNotifications(remoteConfigs)
 
 	//sync all config
-	autoSyncConfigServices(nil)
+	err = autoSyncConfigServices(nil)
 
-	return nil
+	return err
 }
 
 func toApolloConfig(resBody []byte) ([]*apolloNotify,error) {
