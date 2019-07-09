@@ -9,7 +9,7 @@ import (
 )
 
 const appConfigFileName  ="app.properties"
-
+const backupConfigFilePath = "../conf/"
 var (
 	long_poll_interval = 2 *time.Second //2s
 	long_poll_connect_timeout  = 1 * time.Minute //1m
@@ -173,7 +173,11 @@ func getLoadAppConfig(loadAppConfig func()(*AppConfig,error)) (*AppConfig,error)
 	if loadAppConfig!=nil{
 		return loadAppConfig()
 	}
-	return loadJsonConfig(appConfigFileName)
+	config, err := loadJsonConfig(appConfigFileName)
+	if err != nil {
+		config, err = loadJsonConfig(backupConfigFilePath + appConfigFileName)
+	}
+	return config, err;
 }
 
 //set timer for update ip list
