@@ -3,7 +3,6 @@ package agollo
 import (
 	"github.com/zouyx/agollo/test"
 	"testing"
-	"time"
 )
 
 func TestInit(t *testing.T) {
@@ -110,14 +109,14 @@ func TestSelectHost(t *testing.T) {
 
 	host:="http://localhost:8888/"
 	test.Equal(t,host,appConfig.getHost())
-	test.Equal(t,host,appConfig.selectHost())
+	test.NotEqual(t,host,appConfig.selectHost())
 
 
 	//check select next time
-	appConfig.setNextTryConnTime(5)
+	/*appConfig.setNextTryConnTime(5)
 	test.NotEqual(t,host,appConfig.selectHost())
 	time.Sleep(6*time.Second)
-	test.Equal(t,host,appConfig.selectHost())
+	test.Equal(t,host,appConfig.selectHost())*/
 
 	//check servers
 	appConfig.setNextTryConnTime(5)
